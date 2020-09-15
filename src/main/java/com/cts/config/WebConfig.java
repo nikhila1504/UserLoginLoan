@@ -1,4 +1,6 @@
 package com.cts.config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -15,11 +17,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import com.cts.controller.UserController;
 import com.cts.service.UserDetailService;
 
 @Configurable
 @EnableWebSecurity
 public class WebConfig extends WebSecurityConfigurerAdapter {
+	
+	Logger logger = LoggerFactory.getLogger(WebConfig.class);
+
 
 	@Autowired
 	UserDetailService UserDetailService;
@@ -47,7 +53,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and()
+		http.cors().disable()
 		.authorizeRequests()
 		.antMatchers("/user/**").permitAll()
 		.anyRequest().fullyAuthenticated().and()
